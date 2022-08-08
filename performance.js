@@ -12,6 +12,7 @@ function intToAlphabet(num = 0) {
 }
 
 function mapOperation(count) {
+  if(!count) count = 3000000
   const dict = {}
   for (let i = 0; i < count; i++) {
     dict[intToAlphabet(i)] = i
@@ -23,13 +24,13 @@ function mapOperation(count) {
   return sum
 }
 
-function test(operation, count) {
+function test(operation, count, args) {
   const t0 = new Date().getTime()
   for (let i = 0; i < count; i++) {
-    operation(3000000);
+    operation(args);
     console.log(`[${operation.name}] Round ${i} done.`)
   }
-  console.log(`[${operation.name}] Time used: ${(new Date().getTime() - t0)/1000}s`)
+  console.log(`[${operation.name}] Time used: ${(new Date().getTime() - t0) / 1000}s`)
 }
 
 test(mapOperation, 50)
