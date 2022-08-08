@@ -23,9 +23,12 @@ func intToAlphabet(num int) string {
 	return res
 }
 
-func mapOperation(count int) interface{} {
+func mapOperation(count interface{}) interface{} {
 	var dict map[string]int = make(map[string]int)
-	for i := 0; i < count; i++ {
+	if count == nil {
+		count = 3000000
+	}
+	for i := 0; i < count.(int); i++ {
 		dict[intToAlphabet(i)] = i
 	}
 	var sum int64 = 0
@@ -35,16 +38,16 @@ func mapOperation(count int) interface{} {
 	return sum
 }
 
-func test(operation func(int) interface{}, count int) {
+func test(operation func(interface{}) interface{}, count int, args interface{}) {
 	funcName := runtime.FuncForPC(reflect.ValueOf(operation).Pointer()).Name()
 	t0 := time.Now().UnixMilli()
 	for i := 0; i < count; i++ {
-		operation(3000000)
+		operation(args)
 		log.Printf("[%s] Round %d done.", funcName, i)
 	}
 	log.Printf("[%s] Time used: %fs", funcName, (float32(time.Now().UnixMilli()-t0))/float32(1000))
 }
 
 func main() {
-	test(mapOperation, 50)
+	test(mapOperation, 50, nil)
 }
